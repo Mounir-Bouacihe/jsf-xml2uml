@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'xml2uml';
+  src:  url('fonts/xml2uml.eot?ansnnr');
+  src:  url('fonts/xml2uml.eot?ansnnr#iefix') format('embedded-opentype'),
+    url('fonts/xml2uml.ttf?ansnnr') format('truetype'),
+    url('fonts/xml2uml.woff?ansnnr') format('woff'),
+    url('fonts/xml2uml.svg?ansnnr#xml2uml') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'xml2uml' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ic-return:before {
+  content: "\e967";
+}
+.ic-upload:before {
+  content: "\e9c8";
+}
+.ic-error:before {
+  content: "\ea0d";
+}

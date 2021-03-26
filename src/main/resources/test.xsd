@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="diagram">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="class" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="attribute" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="name" type="name" use="required"/>
+                                    <xs:attribute name="type" type="xs:string" default="Object"/>
+                                    <xs:attribute name="default" type="xs:string"/>
+                                    <xs:attribute name="visibility" type="visibilityType" default="package"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="method" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="argument" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:attribute name="name" type="name"/>
+                                            </xs:complexType>
+                                            <xs:unique name="argumentUniqueName">
+                                                <xs:selector xpath="class"/>
+                                                <xs:field xpath="@name"/>
+                                            </xs:unique>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="name" type="name" use="required"/>
+                                    <xs:attribute name="type" type="xs:string"/>
+                                    <xs:attribute name="visibility" type="visibilityType" default="package"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="name" use="required"/>
+                    </xs:complexType>
+                    <xs:unique name="uniqueAttributeAndMethodNames">
+                        <xs:selector xpath="attribute|method"/>
+                        <xs:field xpath="@name"/>
+                    </xs:unique>
+                </xs:element>
+                <xs:element name="association" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="from" type="associationItemType"/>
+                            <xs:element name="to" type="associationItemType"/>
+                        </xs:sequence>
+                        <xs:attribute name="type" type="associationType" default="association"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" default="UML Diagram"/>
+        </xs:complexType>
+        <xs:key name="classUniqueNames">
+            <xs:selector xpath="class"/>
+            <xs:field xpath="@name"/>
+        </xs:key>
+        <xs:keyref name="classNameRef" refer="classUniqueNames">
+            <xs:selector xpath="association/from|association/to"/>
+            <xs:field xpath="@class"/>
+        </xs:keyref>
+    </xs:element>
+    <xs:simpleType name="visibilityType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="public"/>
+            <xs:enumeration value="package"/>
+            <xs:enumeration value="protected"/>
+            <xs:enumeration value="private"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="name">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_$]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="associationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="aggregation"/>
+            <xs:enumeration value="composition"/>
+            <xs:enumeration value="heritage"/>
+            <xs:enumeration value="association"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="cardinalityType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[10*]\.\.[10*]"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="associationItemType">
+        <xs:attribute name="class" type="name" use="required"/>
+        <xs:attribute name="role" type="xs:string"/>
+        <xs:attribute name="cardinality" type="cardinalityType"/>
+    </xs:complexType>
+</xs:schema>

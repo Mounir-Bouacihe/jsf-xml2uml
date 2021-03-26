@@ -1,0 +1,55 @@
+<diagram name="Bank">
+    <class name="Customer">
+        <attribute name="name" type="String" visibility="private"/>
+        <attribute name="address" visibility="private"/>
+    </class>
+
+    <class name="Order">
+        <attribute name="date" type="Date" visibility="private" />
+        <attribute name="status" type="String" visibility="private" />
+        
+        <method name="calcSubTotal" visibility="public" />
+        <method name="calcTax" visibility="public" />
+        <method name="calcTotal" visibility="public" />
+        <method name="calcTotalWeight" visibility="public" />
+    </class>
+
+    <class name="Payment">
+        <attribute name="amount" type="Float" default="0" />
+    </class>
+
+    <class name="Check">
+        <attribute name="name" type="String" visibility="private"/>
+        <attribute name="bankID" type="String" visibility="private"/>
+        <method name="authorized" visibility="public"/>
+    </class>
+    
+    <class name="OrderDetail">
+        <attribute name="quantity" type="int" visibility="private" default="1" />
+        <attribute name="taxStatus" type="String" visibility="private" />
+
+        <method name="calcSubTotal" visibility="public" />
+        <method name="calcTax" visibility="public" />
+        <method name="calcTotalWeight" visibility="public" />
+    </class>
+
+    <association type="heritage">
+        <from class="Check"/>
+        <to class="Payment"/>
+    </association>
+    
+    <association type="composition">
+        <from class="OrderDetail" role="an item"/>
+        <to class="Order"/>
+    </association>
+    
+    <association type="aggregation">
+        <from class="Order" cardinality="1..1"/>
+        <to class="Customer" cardinality="0..*"/>
+    </association>
+
+    <association>
+        <from class="Payment" cardinality="1..*"/>
+        <to class="Order" cardinality="1..1"/>
+    </association>
+</diagram>

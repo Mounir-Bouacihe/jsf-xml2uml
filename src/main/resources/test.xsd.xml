@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<diagram name="UML Diagram">
+    <class name="Person">
+        <attribute name="id" type="String" visibility="private"/>
+        <attribute name="firstname" type="String"/>
+        <attribute name="lastname" type="String"/>
+        <attribute name="address" type="String"/>
+        <method name="getFullName" type="String"/>
+    </class>
+    <class name="Teacher"/>
+    <class name="Student">
+        <attribute name="cne" type="String"/>
+    </class>
+    <association type="heritage">
+        <from class="Student" cardinality="1..*" role="lol"/>
+        <to class="Person" cardinality="*..1"/>
+    </association>
+</diagram>

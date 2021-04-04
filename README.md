@@ -1,7 +1,8 @@
 # XML 2 UML
 This is a JSF application for rendering UML class diagram defined with XML, using JS library GoJS.
 
-### Example of XML class diagram (All XML must respect XSD schema.xsd [test.xsd in 1st release] :
+### Example of XML class diagram (All XML must respect XSD schema.xsd (test.xsd in 1st release ):
+<![CDATA[
 <diagram name="UML Diagram">
   <class name="Person">
     <attribute name="id" type="String" visibility="private"/>
@@ -27,3 +28,4 @@ This is a JSF application for rendering UML class diagram defined with XML, usin
     <to class="Person" />
   </association>
 </diagram>
+]]>

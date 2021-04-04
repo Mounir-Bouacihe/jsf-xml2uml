@@ -201,7 +201,7 @@ function init(diagramDivId, nodes, links) {
     });
 }
 
-const diagramTemplate = {
+let diagram = {
     classes: [
         {
             key: "Person",

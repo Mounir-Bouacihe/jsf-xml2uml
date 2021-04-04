@@ -1,0 +1,18 @@
+<facelet-taglib version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+
+    <namespace>http://org.xml2uml.ui</namespace>
+
+    <tag>
+        <tag-name>class-diagram</tag-name>
+        <component>
+            <component-type>DiagramComponent</component-type>
+        </component>
+        <attribute>
+            <name>diagram</name>
+            <required>true</required>
+            <type>estm.lpdsic.xml2uml.model.Diagram</type>
+        </attribute>
+    </tag>
+</facelet-taglib>

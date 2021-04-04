@@ -12,7 +12,7 @@
         <attribute name="cne" type="String"/>
     </class>
     <association type="heritage">
-        <from class="Student" cardinality="1..*" role="lol"/>
+        <from class="Stdent" cardinality="1..*" role="lol"/>
         <to class="Person" cardinality="*..1"/>
     </association>
 </diagram>

@@ -1,5 +1,7 @@
 package estm.lpdsic.xml2uml.dao;
 
+import estm.lpdsic.xml2uml.model.Class;
+import estm.lpdsic.xml2uml.model.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -13,11 +15,12 @@ public class XMLDiagramHandler extends DefaultHandler {
     private Argument argument;
     private Association association;
     private AssociationItem associationItem;
-    private StringBuffer errors = new StringBuffer();
+    private StringBuffer errors;
 
     @Override
     public void startDocument() throws SAXException {
         diagram = new Diagram();
+        errors = new StringBuffer();
     }
 
     @Override
@@ -93,14 +96,14 @@ public class XMLDiagramHandler extends DefaultHandler {
     @Override
     public void warning(SAXParseException e) throws SAXException {
         errors.append("<div class='warning'>");
-        errors.append("<b>at Line" + e.getLineNumber() + "<b>: " + e.getMessage());
+        errors.append("<b>at Line").append(e.getLineNumber()).append("<b>: ").append(e.getMessage());
         errors.append("</div>");
     }
 
     @Override
     public void error(SAXParseException e) throws SAXException {
         errors.append("<li class='error'>");
-        errors.append("<b>at Line" + e.getLineNumber() + "</b>: " + e.getMessage());
+        errors.append("<b>at Line").append(e.getLineNumber()).append("</b>: ").append(e.getMessage());
         errors.append("</li>");
     }
 
@@ -115,6 +118,6 @@ public class XMLDiagramHandler extends DefaultHandler {
 
     public String getErrors() {
         String allErrors = errors.toString();
-        return allErrors.length() > 0 ? "<ul class='errors'>" + allErrors + "</ul>" : "";
+        return allErrors.length() > 0 ? "<ul class='errors'>" + allErrors + "</ul>" : null;
     }
 }

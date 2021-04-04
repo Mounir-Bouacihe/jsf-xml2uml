@@ -6,86 +6,69 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://org.xml2uml.ui">
 
 <h:head>
     <title>UML Class Nodes</title>
-    <meta name="description" content="UML Class-like nodes showing two collapsible lists of items."/>
+    <meta name="description" content="UML Class Diagram"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="charset" content="utf-8"/>
 
     <link rel="stylesheet" href="assets/index.css"/>
     <link rel="stylesheet" href="assets/icons.css"/>
-
-    <script type="text/javascript" src="assets/go-debug.js"></script>
-    <script type="text/javascript" src="assets/content.js"></script>
 </h:head>
 
 <h:body>
-    <c:choose>
-        <c:when test="#{!(xmlUtil.diagramJsObjectString eq null) and !(xmlUtil.diagramJsObjectString eq '')}">
-            <div class="header">
-                <h:form>
-                    <div class="input-file">
-                        <h:commandButton value="Return" action="#{xmlUtil.setDiagramJsObjectString(null)}" />
-                        <div class="button flex">
-                            <i class="ic-return" />
-                            <span>Retour</span>
+    <div class="padding header flex-column">
+        <h1 class="centered-text">XML 2 UML Converter</h1>
+        <div class="centered-text">Simple to use</div>
+    </div>
+
+    <div class="main">
+        <h:form styleClass="app" id="form" enctype="multipart/form-data">
+            <h:panelGroup styleClass="flex" style="border-bottom: 1px solid #A0A0A0">
+                <h:panelGroup id="fileNamePane" styleClass="padding">
+                    <c:choose>
+                        <c:when test="#{xmlUtil.uploadedFile eq null}">
+                            <h:outputLabel value="Upload your XML file ->"/>
+                        </c:when>
+                        <c:otherwise>
+                            <b><h:outputText value="#{xmlUtil.selectedDiagram.name}"/></b>
+                            (<h:outputText value="#{xmlUtil.selectedFileName}"/>)
+                        </c:otherwise>
+                    </c:choose>
+                </h:panelGroup>
+
+                <div class="input-file">
+                    <h:inputFile value="#{xmlUtil.uploadedFile}" accept="application/xml">
+                        <f:ajax listener="#{xmlUtil.upload}" execute="@this" render="fileNamePane diagram"/>
+                    </h:inputFile>
+                    <!-- Custom upload button -->
+                    <div class="flex button">
+                        <div class="padding submit">
+                            <span>Upload</span>
+                            <i class="ic-upload"/>
                         </div>
                     </div>
-                </h:form>
-                <h3 class="padding centered-text">UML: <h:outputLabel value="#{xmlUtil.selectedFileName}" /></h3>
-            </div>
+                </div>
+            </h:panelGroup>
 
-            <div id="diagramArea">
-                <div id="diagramName" class="padding centered-text"></div>
-                <hr/>
+            <h:panelGroup styleClass="flex-column diagramArea" id="diagram" style="flex-grow: 1">
                 <c:choose>
-                    <c:when test='#{xmlUtil.errorsHTML eq ""}'>
-                        <div id="myDiagramDiv"></div>
-
-                        <h:outputScript>
-                            let diagram;
-                            diagram =#{xmlUtil.diagramJsObjectString}
-
-                            document.getElementById('diagramName').innerHTML = diagram.name;
-                            init("myDiagramDiv", diagram.classes, diagram.associations);
-                        </h:outputScript>
+                    <c:when test="#{xmlUtil.uploadedFile eq null}">
+                        <div class="padding centered-text">Veillez Selectionner le fichier XML pour Vusualiser le diagramme UML.</div>
+                    </c:when>
+                    <c:when test="#{xmlUtil.errorsHTML ne null and xmlUtil.errorsHTML ne ''}">
+                        <h:outputLabel styleClass="padding" value="#{xmlUtil.errorsHTML}" escape="false" />
                     </c:when>
                     <c:otherwise>
-                        <div class="padding">
-                            <h:outputText value="#{xmlUtil.errorsHTML}" escape="false" />
-                        </div>
+                        <ui:class-diagram diagram="#{xmlUtil.selectedDiagram}"/>
                     </c:otherwise>
                 </c:choose>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="header padding" style="flex-direction: column">
-                <h1 class="centered-text">XML 2 UML Converter</h1>
-                <div class="centered-text">Simple to use</div>
-            </div>
-
-            <div class="main padding centered-text">
-                <div>Veillez Selectionner le fichier XML pour Vusualiser le diagramme UML.</div>
-                <hr style="margin: 18px -18px"/>
-                <h:form id="f" enctype="multipart/form-data">
-                    <div class="input-file">
-                        <h:inputFile value="#{xmlUtil.uploadedFile}" onchange="document.forms['f'].submit()">
-                            <!--<f:ajax listener="#{xmlUtil.upload}"/>-->
-                        </h:inputFile>
-                        <!-- Custom upload button -->
-                        <div class="button" style="padding: 24px 0">
-                            <div class="submit">
-                                <span>Upload</span>
-                                <i class="ic-upload"/>
-                            </div>
-                        </div>
-                    </div>
-                </h:form>
-            </div>
-        </c:otherwise>
-    </c:choose>
+            </h:panelGroup>
+        </h:form>
+    </div>
 </h:body>
 
 </html>

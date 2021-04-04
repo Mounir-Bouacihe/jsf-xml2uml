@@ -1,4 +1,4 @@
-package estm.lpdsic.xml2uml.dao;
+package estm.lpdsic.xml2uml.model;
 
 import java.io.Serializable;
 
